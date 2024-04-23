@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from werkzeug.utils import secure_filename
 import os
-from flask_sqlalchemy import SQLAlchemy
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 app.secret_key = "sua_chave_secreta"
@@ -9,14 +9,12 @@ UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://ada:123@localhost/arquivos'
-db = SQLAlchemy(app)
+app.config['MYSQL_HOST'] = '%'
+app.config['MYSQL_USER'] = 'ada'
+app.config['MYSQL_PASSWORD'] = '123'
+app.config['MYSQL_DB'] = 'arquivos'
 
-# Definição do modelo de relatório
-class Report(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String(255), nullable=False)
-    username = db.Column(db.String(255), nullable=False)
+mysql = MySQL(app)
 
 # Função para verificar a extensão do arquivo
 def allowed_file(filename):
@@ -59,14 +57,18 @@ def upload_file():
 
 # Função para adicionar relatório ao banco de dados
 def add_report_to_database(filename, username):
-    report = Report(filename=filename, username=username)
-    db.session.add(report)
-    db.session.commit()
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO Report (filename, username) VALUES (%s, %s)", (filename, username))
+    mysql.connection.commit()
+    cur.close()
 
 # Rota para exibir os relatórios enviados
 @app.route('/reports')
 def reports():
-    reports = Report.query.all()
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Report")
+    reports = cur.fetchall()
+    cur.close()
     return render_template('reports.html', reports=reports)
 
 # Rota para download de arquivos
@@ -75,5 +77,4 @@ def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-    port = int(os.getenv('PORT'), '5000')
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
