@@ -47,6 +47,9 @@ def upload_file():
             return 'Nenhum arquivo selecionado'
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            # Verifica se o diretório de upload existe, se não, cria-o
+            if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                os.makedirs(app.config['UPLOAD_FOLDER'])
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             add_report_to_database(filename, 'admin')  # Adiciona o relatório ao banco de dados
             return redirect(url_for('reports'))  # Redireciona para a página de relatórios
