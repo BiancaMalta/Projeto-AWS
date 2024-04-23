@@ -57,19 +57,26 @@ def upload_file():
 
 # Função para adicionar relatório ao banco de dados
 def add_report_to_database(filename, username):
-    cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO Report (filename, username) VALUES (%s, %s)", (filename, username))
-    mysql.connection.commit()
-    cur.close()
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO Report (filename, username) VALUES (%s, %s)", (filename, username))
+        mysql.connection.commit()
+        cur.close()
+    except Exception as e:
+        print("Erro ao adicionar relatório ao banco de dados:", str(e))
 
 # Rota para exibir os relatórios enviados
 @app.route('/reports')
 def reports():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Report")
-    reports = cur.fetchall()
-    cur.close()
-    return render_template('reports.html', reports=reports)
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM Report")
+        reports = cur.fetchall()
+        cur.close()
+        return render_template('reports.html', reports=reports)
+    except Exception as e:
+        print("Erro ao buscar relatórios no banco de dados:", str(e))
+        return "Erro ao buscar relatórios no banco de dados. Consulte os logs para mais detalhes."
 
 # Rota para download de arquivos
 @app.route('/download/<filename>')
