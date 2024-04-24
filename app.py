@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, s
 from werkzeug.utils import secure_filename
 import os
 import pymysql.cursors
+import boto3
 
 app = Flask(__name__)
 app.secret_key = "sua_chave_secreta"
@@ -41,6 +42,29 @@ def add_report_to_database(filename, username):
     finally:
         connection.close()
 
+# Função para fazer upload de arquivo para o Amazon S3
+def upload_to_s3(file_name, bucket_name, object_name=None):
+    """Upload a file to an S3 bucket
+
+    :param file_name: File to upload
+    :param bucket_name: Bucket to upload to
+    :param object_name: S3 object name. If not specified, file_name is used
+    :return: True if file was uploaded, else False
+    """
+
+    # If S3 object_name was not specified, use file_name
+    if object_name is None:
+        object_name = file_name
+
+    # Upload the file
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.upload_file(file_name, bucket_name, object_name)
+    except Exception as e:
+        print(e)
+        return False
+    return True
+
 # Rota de login
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -70,6 +94,8 @@ def upload_file():
             if not os.path.exists(app.config['UPLOAD_FOLDER']):
                 os.makedirs(app.config['UPLOAD_FOLDER'])
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # Upload para o Amazon S3
+            upload_to_s3(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'seu-bucket-s3')
             add_report_to_database(filename, 'admin')  # Adiciona o relatório ao banco de dados
             return redirect(url_for('reports'))  # Redireciona para a página de relatórios
         else:
