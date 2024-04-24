@@ -4,7 +4,6 @@ import os
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-app.secret_key = "sua_chave_secreta"
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
