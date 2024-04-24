@@ -7,7 +7,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            /* Referenciando o arquivo SVG para o plano de fundo */
+            background: url('../static/login.svg') no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,13 +17,15 @@
             align-items: center;
             height: 100vh;
         }
+        
         .login-container {
-            background-color: #fff;
+            background-color: transparent; /* Adiciona um fundo branco sem opacidade */
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 300px;
-            text-align: center;
+            margin-top: 10vh;
+            width: 90%; /* Alterado para 90% da largura da tela */
+            max-width: 500px; /* Máxima largura de 500px */
+
         }
         h2 {
             margin-top: 0;
@@ -29,39 +33,47 @@
         }
         label {
             display: block;
-            margin-bottom: 10px;
-            color: #666;
+            color: #ffff;
         }
         input[type="text"],
         input[type="password"] {
-            width: calc(100% - 20px);
+            width: 100%; /* Largura total */
             padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            border: transparent;
             border-radius: 4px;
             box-sizing: border-box;
+            opacity: 5%;
         }
         input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
+            background-color:  #6EA23E;
+            color: #ffff;
             border: none;
             border-radius: 4px;
-            padding: 10px 20px;
+            font-size: 20px;
+            padding: 15px 0; /* Ajustado o padding vertical */
+            width: 100%; /* Largura total */
             cursor: pointer;
-            transition: background-color 0.3s;
         }
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color:#364E35;
+        }
+
+        @media screen and (min-width: 600px) {
+            /* Ajustes para telas maiores */
+            .login-container {
+                margin-top: 20vh;
+            }
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+
         <form method="post">
-            <label for="username">Usuário:</label>
+            <label for="username">Usuário</label>
             <input type="text" id="username" name="username" required><br><br>
-            <label for="password">Senha:</label>
+            <label for="password">Senha</label>
             <input type="password" id="password" name="password" required><br><br>
             <input type="submit" value="Login">
         </form>
