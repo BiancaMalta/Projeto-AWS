@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from werkzeug.utils import secure_filename
 import os
-from flask_mysqldb import MySQL
+import pymysql.cursors
 
 app = Flask(__name__)
 app.secret_key = "sua_chave_secreta"
@@ -14,11 +14,32 @@ app.config['MYSQL_USER'] = 'ada'
 app.config['MYSQL_PASSWORD'] = '123'
 app.config['MYSQL_DB'] = 'arquivos'
 
-mysql = MySQL(app)
-
 # Função para verificar a extensão do arquivo
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Função para conectar ao banco de dados
+def get_db_connection():
+    return pymysql.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        db=app.config['MYSQL_DB'],
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+# Função para adicionar relatório ao banco de dados
+def add_report_to_database(filename, username):
+    try:
+        connection = get_db_connection()
+        with connection.cursor() as cursor:
+            cursor.execute("INSERT INTO Report (filename, username) VALUES (%s, %s)", (filename, username))
+            connection.commit()
+    except Exception as e:
+        print("Erro ao adicionar relatório ao banco de dados:", str(e))
+    finally:
+        connection.close()
 
 # Rota de login
 @app.route('/', methods=['GET', 'POST'])
@@ -55,28 +76,20 @@ def upload_file():
             return 'Tipo de arquivo não permitido'
     return render_template('upload.html')
 
-# Função para adicionar relatório ao banco de dados
-def add_report_to_database(filename, username):
-    try:
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO Report (filename, username) VALUES (%s, %s)", (filename, username))
-        mysql.connection.commit()
-        cur.close()
-    except Exception as e:
-        print("Erro ao adicionar relatório ao banco de dados:", str(e))
-
 # Rota para exibir os relatórios enviados
 @app.route('/reports')
 def reports():
     try:
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM Report")
-        reports = cur.fetchall()
-        cur.close()
-        return render_template('reports.html', reports=reports)
+        connection = get_db_connection()
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM Report")
+            reports = cursor.fetchall()
     except Exception as e:
         print("Erro ao buscar relatórios no banco de dados:", str(e))
         return "Erro ao buscar relatórios no banco de dados. Consulte os logs para mais detalhes."
+    finally:
+        connection.close()
+    return render_template('reports.html', reports=reports)
 
 # Rota para download de arquivos
 @app.route('/download/<filename>')
