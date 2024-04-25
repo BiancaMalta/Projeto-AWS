@@ -14,6 +14,7 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'ada'
 app.config['MYSQL_PASSWORD'] = '123'
 app.config['MYSQL_DB'] = 'arquivos'
+app.config['S3_BUCKET'] = 'projeto-ada-aws'  # Nome do bucket S3
 
 # Função para verificar a extensão do arquivo
 def allowed_file(filename):
@@ -43,23 +44,17 @@ def add_report_to_database(filename, username):
         connection.close()
 
 # Função para fazer upload de arquivo para o Amazon S3
-def upload_to_s3(file_name, bucket_name, object_name=None):
+def upload_to_s3(file_name, bucket_name):
     """Upload a file to an S3 bucket
 
     :param file_name: File to upload
     :param bucket_name: Bucket to upload to
-    :param object_name: S3 object name. If not specified, file_name is used
     :return: True if file was uploaded, else False
     """
-
-    # If S3 object_name was not specified, use file_name
-    if object_name is None:
-        object_name = file_name
-
     # Upload the file
     s3_client = boto3.client('s3')
     try:
-        response = s3_client.upload_file(file_name, bucket_name, object_name)
+        response = s3_client.upload_file(file_name, bucket_name, file_name)
     except Exception as e:
         print(e)
         return False
@@ -95,7 +90,7 @@ def upload_file():
                 os.makedirs(app.config['UPLOAD_FOLDER'])
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             # Upload para o Amazon S3
-            upload_to_s3(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'seu-bucket-s3')
+            upload_to_s3(os.path.join(app.config['UPLOAD_FOLDER'], filename), app.config['S3_BUCKET'])
             add_report_to_database(filename, 'admin')  # Adiciona o relatório ao banco de dados
             return redirect(url_for('reports'))  # Redireciona para a página de relatórios
         else:
