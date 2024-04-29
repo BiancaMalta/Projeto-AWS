@@ -20,7 +20,7 @@ O projeto é composto por cinco partes principais:
    - Hospedado em um contêiner Docker.
    - A aplicação Flask interage com este banco de dados para acessar e armazenar dados.
 
-<img align="right" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59"  width="35%">
+<img align="right" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59"  width="45%">
 
 3. **Amazon S3 Bucket**:
    - Utilizado para armazenar arquivos enviados pelos usuários.
