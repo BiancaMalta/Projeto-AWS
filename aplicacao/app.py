@@ -14,7 +14,7 @@ app.config['MYSQL_HOST'] = 'db'
 app.config['MYSQL_USER'] = 'ada'
 app.config['MYSQL_PASSWORD'] = '123'
 app.config['MYSQL_DB'] = 'arquivos'
-app.config['S3_BUCKET'] = 'projeto-teste-ada-aws'  # Nome do bucket S3
+app.config['S3_BUCKET'] = 'projeto-ada-aws'  # Nome do bucket S3
 
 # Função para verificar a extensão do arquivo
 def allowed_file(filename):
