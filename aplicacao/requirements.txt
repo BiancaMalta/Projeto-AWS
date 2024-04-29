@@ -1,0 +1,10 @@
+Flask
+Werkzeug
+Jinja2
+gunicorn
+click
+MarkupSafe
+PyMySQL
+flask-mysqldb
+boto3
+python-dotenv
