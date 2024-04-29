@@ -11,7 +11,7 @@ Este projeto consiste em uma aplicação Flask dockerizada que utiliza um banco 
 O projeto é composto por cinco partes principais:</br> 
 
 
-<img align="right" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59"  width="50%">
+<img align="right" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c0d07ab1-20f5-4bce-b1bf-9446b981f114"  width="50%">
 
 1. **Aplicação Flask (Python)**:
    - Contém a lógica de negócios da aplicação, incluindo rotas, lógica de processamento de arquivos e interações com o banco de dados.
