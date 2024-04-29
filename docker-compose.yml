@@ -1,0 +1,36 @@
+version: '3.3'
+
+networks:
+  my_network:
+
+services:
+  db:
+    build: 
+      context: banco-de-dados
+      dockerfile: ./Dockerfile
+    ports:
+      - "3306:3306"
+    image: imagem-mysql:latest
+    volumes:
+      - mysql_data:/var/lib/mysql
+    env_file:
+      - ./config/db.env
+    networks:
+      - my_network  
+
+  app:
+    depends_on:
+      - db
+    build: ./aplicacao
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./aplicacao:/app
+      - ./uploads:/app/uploads
+    env_file:
+      - ./config/app.env
+    networks:
+      - my_network
+
+volumes:
+  mysql_data: {}
