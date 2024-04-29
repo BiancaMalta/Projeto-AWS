@@ -20,6 +20,8 @@ O projeto é composto por cinco partes principais:
    - Hospedado em um contêiner Docker.
    - A aplicação Flask interage com este banco de dados para acessar e armazenar dados.
 
+<img align="right" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59"  width="35%">
+
 3. **Amazon S3 Bucket**:
    - Utilizado para armazenar arquivos enviados pelos usuários.
    - A aplicação Flask faz upload e download de arquivos para este bucket.
@@ -33,7 +35,6 @@ O projeto é composto por cinco partes principais:
    - A instância EC2 está conectada ao bucket S3 para upload e download de arquivos.
    - Foi necessário alterar o grupo de segurança da instância EC2 para expor a porta 5000 e permitir o acesso de qualquer IP.
 
-<img  src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59" >
 
 ### Como Executar o Projeto
 
