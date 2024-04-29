@@ -2,14 +2,13 @@
 **Projeto Flask Dockerizado com MySQL e Integração com Amazon S3**
 
 ---
+<img align="left" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c0d9e407-524b-4963-ade3-5c6aa7d5f58a" width="60%">
 
 ### Descrição do Projeto
 Este projeto consiste em uma aplicação Flask dockerizada que utiliza um banco de dados MySQL para armazenar dados e integra-se com a Amazon S3 para armazenamento de arquivos. A aplicação permite o upload de arquivos, armazenamento de informações de relatórios no banco de dados e exibição dos relatórios enviados pelos usuários. Além disso, inclui uma função Lambda que é acionada por eventos do CloudWatch EventBridge para desligar a instância EC2.
 
 ### Estrutura do Projeto
 O projeto é composto por cinco partes principais:
-
-<img align="right" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59" width="60%">
 
 1. **Aplicação Flask (Python)**:
    - Contém a lógica de negócios da aplicação, incluindo rotas, lógica de processamento de arquivos e interações com o banco de dados.
@@ -33,6 +32,8 @@ O projeto é composto por cinco partes principais:
    - Uma instância EC2 na AWS que hospeda a aplicação Flask e o banco de dados MySQL.
    - A instância EC2 está conectada ao bucket S3 para upload e download de arquivos.
    - Foi necessário alterar o grupo de segurança da instância EC2 para expor a porta 5000 e permitir o acesso de qualquer IP.
+
+<img  src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59" >
 
 ### Como Executar o Projeto
 
