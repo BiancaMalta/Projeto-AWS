@@ -2,13 +2,16 @@
 **Projeto Flask Dockerizado com MySQL e Integração com Amazon S3**
 
 ---
-<img align="left" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c0d9e407-524b-4963-ade3-5c6aa7d5f58a" width="60%">
+<img align="left" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c0d9e407-524b-4963-ade3-5c6aa7d5f58a" width="60%" heigh="100%">
 
 ### Descrição do Projeto
 Este projeto consiste em uma aplicação Flask dockerizada que utiliza um banco de dados MySQL para armazenar dados e integra-se com a Amazon S3 para armazenamento de arquivos. A aplicação permite o upload de arquivos, armazenamento de informações de relatórios no banco de dados e exibição dos relatórios enviados pelos usuários. Além disso, inclui uma função Lambda que é acionada por eventos do CloudWatch EventBridge para desligar a instância EC2.
 
 ### Estrutura do Projeto
-O projeto é composto por cinco partes principais:
+O projeto é composto por cinco partes principais:</br> 
+
+
+<img align="right" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59"  width="50%">
 
 1. **Aplicação Flask (Python)**:
    - Contém a lógica de negócios da aplicação, incluindo rotas, lógica de processamento de arquivos e interações com o banco de dados.
@@ -20,20 +23,22 @@ O projeto é composto por cinco partes principais:
    - Hospedado em um contêiner Docker.
    - A aplicação Flask interage com este banco de dados para acessar e armazenar dados.
 
-<img align="left" src="https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/c22f26a1-84b2-4f3b-b9ba-62fa3c012f59"  width="55%">
-
-3. **Amazon S3 Bucket**:
-   - Utilizado para armazenar arquivos enviados pelos usuários.
-   - A aplicação Flask faz upload e download de arquivos para este bucket.
-
-4. **Lambda Function**:
-   - Uma função Lambda AWS que é acionada por eventos do CloudWatch EventBridge.
-   - Responsável por desligar a instância EC2 em horários pré-determinados para reduzir custos operacionais.
-
-5. **EC2 Instance**:
+3. **EC2 Instance**:
    - Uma instância EC2 na AWS que hospeda a aplicação Flask e o banco de dados MySQL.
    - A instância EC2 está conectada ao bucket S3 para upload e download de arquivos.
    - Foi necessário alterar o grupo de segurança da instância EC2 para expor a porta 5000 e permitir o acesso de qualquer IP.
+     
+4. **Amazon S3 Bucket**:
+   - Utilizado para armazenar arquivos enviados pelos usuários.
+   - A aplicação Flask faz upload e download de arquivos para este bucket.
+
+5. **Lambda Function**:
+   - Uma função Lambda AWS que é acionada por eventos do CloudWatch EventBridge.
+   - Responsável por desligar a instância EC2 em horários pré-determinados para reduzir custos operacionais.
+
+![image](https://github.com/BiancaMalta/Projeto-AWS/assets/92928037/d697855b-8287-44ad-8545-494220586ff7)
+
+
 
 
 ### Como Executar o Projeto
@@ -75,9 +80,6 @@ O projeto é composto por cinco partes principais:
 
 ### Ferramentas Utilizadas
 - **Figma**: Utilizado para prototipagem e design da interface da aplicação.
-- **Python:** Devido à sua simplicidade, clareza e ampla gama de bibliotecas disponíveis.
-- **Flask:** Framework web em Python escolhido devido à sua simplicidade e flexibilidade para criar a API da aplicação.
-- **MySQL:** Sistema de gerenciamento de banco de dados relacional
 - **Docker e Docker Compose:** Proporcionou um ambiente de desenvolvimento e implantação consistente e portátil.
 - **AWS:** Garantiu uma escalabilidade, automação, durabilidade e facilidade de integração.
 - **Git:** Utilizado para gerenciar e controlar as versões do código-fonte.
